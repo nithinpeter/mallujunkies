@@ -1,27 +1,29 @@
-module.exports ={
-	
-	entry: "./client.js",
-	output: {
-		path: "./build",
-		fileName: "bundle.js"	
-	},
-	
-	
-	// resolve: {
-	// 	extensions: [ ".js", ".jsx" ]
-	// },
-	
-	module: {
-		loaders: [
-			{
-				test: /\.jsx|.js$/,
+const Config = {
+
+    entry: "./client",
+    output: {
+        fileName: "bundle.js",
+        path: __dirname + "/build"
+    },
+
+
+    resolve: {
+        extensions: ["", ".js", ".jsx"]
+    },
+
+    module: {
+        loaders: [
+            {
+                test: /\.jsx$/,
                 exclude: "node_modules",
-				loader: 'babel',
-				query: {
-					presets: ['es2015','react']
-				}
-			}
-		]	
-	}
-	
+                loader: 'babel-loader',
+                query: {
+                    presets: ['es2015', 'react']
+                }
+            }
+        ]
+    }
+
 }
+
+module.exports = Config;
