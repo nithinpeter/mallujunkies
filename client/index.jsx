@@ -3,8 +3,10 @@ import { render }  from 'react-dom';
 import { Router }  from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import routes      from '../routes';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider }                     from 'react-redux';
+import thunkMiddleware                  from 'redux-thunk';
+import createLogger                     from 'redux-logger';
 import { default as reducer }           from '../shared/reducers';
 import { fromJS }                       from 'immutable';
 
@@ -18,7 +20,7 @@ Object
         initialState[key] = fromJS(initialState[key]);
     });
 // const reducer = combineReducers(reducers);
-const store = createStore(reducer, initialState);
+const store = createStore(reducer, initialState, applyMiddleware(thunkMiddleware));
 render(
     <Provider store={store}>
         <Router children={routes} history={history} />

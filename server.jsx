@@ -4,23 +4,25 @@ import { renderToString }        from 'react-dom/server'
 import { RoutingContext, match } from 'react-router';
 import createLocation            from 'history/lib/createLocation';
 import routes                    from './routes';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider }                     from 'react-redux';
+import thunkMiddleware           from 'redux-thunk';
+import createLogger              from 'redux-logger';
 import {default as reducer }     from './shared/reducers';
 
 const app = express();
 app.use((req, res, next) => {
     const location = createLocation(req.url);
     // const reducer = combineReducers(reducers);
-    const store = createStore(reducer);
+    const store = createStore(reducer, {}, applyMiddleware(thunkMiddleware));
 
-    console.log("outside assets::", req.url);
+    
     match({ routes, location }, (err, redirectLocation, renderProps) => {
         if (err) {
             console.error(err);
             return res.status(500).end('Internal server error');
         }
-        console.log("here we go");
+    
         if (!renderProps) return res.status(404).end('Not found.');
 
         const InitialComponent = (
