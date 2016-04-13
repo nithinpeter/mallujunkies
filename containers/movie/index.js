@@ -12,7 +12,7 @@ class Movie extends Component {
     render() {
         const { movie } = this.props;
         
-        if(movie) {
+        if(movie && !movie.isFetching) {
             return <div>
                 <h2>{ movie.details.Title }</h2>
                 <p>{ movie.details.Plot }</p>

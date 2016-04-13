@@ -1,16 +1,20 @@
 import express                   from 'express';
+import path                      from 'path';
 import React                     from 'react';
 import { renderToString }        from 'react-dom/server'
 import { RoutingContext, match } from 'react-router';
 import createLocation            from 'history/lib/createLocation';
 import routes                    from './routes';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider }                     from 'react-redux';
 import thunkMiddleware           from 'redux-thunk';
 import createLogger              from 'redux-logger';
 import {default as reducer }     from './shared/reducers';
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'build')));
+
 app.use((req, res, next) => {
     const location = createLocation(req.url);
     // const reducer = combineReducers(reducers);
@@ -45,6 +49,7 @@ app.use((req, res, next) => {
         <body>
             <div id="react-view">${componentHTML}</div>
             <script type="application/javascript" src="bundle.js"></script>
+            <script src="https://sdk.accountkit.com/en_US/sdk.js"></script>
         </body>
     </html>    
     `
