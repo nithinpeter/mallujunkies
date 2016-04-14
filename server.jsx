@@ -60,4 +60,9 @@ app.use((req, res, next) => {
 
 // app.use(express.static(__dirname + 'assets'));
 
-export default app;
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, function () {
+  console.log('Server listening on', PORT);
+});
+
+// export default app;
