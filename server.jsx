@@ -1,6 +1,7 @@
 import express                   from 'express';
 import path                      from 'path';
 import React                     from 'react';
+import Helmet                    from "react-helmet";
 import { renderToString }        from 'react-dom/server'
 import { RoutingContext, match } from 'react-router';
 import createLocation            from 'history/lib/createLocation';
@@ -36,12 +37,14 @@ app.use((req, res, next) => {
         );
         const initialState = store.getState();
         const componentHTML = renderToString(InitialComponent);
+        const head = Helmet.rewind();
+        
         const HTML = `
         <!DOCTYPE html>
         <html>
         <head>
             <meta charset="utf-8">
-            <title>Isomorphic Redux Demo</title>
+            ${head.title.toString()}
             <script type="application/javascript">
                 window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
             </script>

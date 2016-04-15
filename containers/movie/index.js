@@ -1,11 +1,11 @@
 import React, { Component } from "react";
+import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { fetchMovieDetails } from "../../shared/actions";
 
 class Movie extends Component {
     
     componentDidMount() {
-        console.log("componentDidMount - called on server??")
         this.props.dispatch(fetchMovieDetails());
     }
     
@@ -14,11 +14,15 @@ class Movie extends Component {
         
         if(movie && !movie.isFetching) {
             return <div>
+                 <Helmet title="Jungle Book" />
                 <h2>{ movie.details.Title }</h2>
                 <p>{ movie.details.Plot }</p>
             </div>
         } else {
-            return <div>Loading..</div>
+            return <div>
+                 <Helmet title="Jungle Book" />
+                Loading..
+            </div>
         }
     }
 }
