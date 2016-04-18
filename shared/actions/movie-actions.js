@@ -3,27 +3,27 @@ import fetch from "isomorphic-fetch";
 export const REQUEST_MOVIE_DETAILS = "REQUEST_MOVIE_DETAILS";
 export const RECEIVE_MOVIE_DETAILS = "RECEIVE_MOVIE_DETAILS";
 
-function requestMovieDetails() {
+function requestMovieDetails(id) {
     return {
         type: REQUEST_MOVIE_DETAILS,
-        movieId: "jb"
+        movieId: id
     }
 }
 
-function receiveMovieDetails(json) {
+function receiveMovieDetails(id, json) {
     console.log("receiveMovieDetails", json);
     return {
         type: RECEIVE_MOVIE_DETAILS,
         details: json,
-        movieId: "jb"
+        movieId: id
     }
 }
 
-export function fetchMovieDetails() {
+export function fetchMovieDetails(id) {
     return dispatch => {
-        dispatch(requestMovieDetails())
-        return fetch(`http://www.omdbapi.com/?i=tt3040964&plot=short&r=json`)
+        dispatch(requestMovieDetails(id))
+        return fetch(`http://api.mallujunkies.com/api/movies/${id}`)
             .then(response => response.json())
-            .then(json => dispatch(receiveMovieDetails(json)))
+            .then(json => dispatch(receiveMovieDetails(id, json)))
     }
 }

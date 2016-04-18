@@ -6,7 +6,8 @@ import { fetchMovieDetails } from "../../shared/actions";
 class Movie extends Component {
     
     componentDidMount() {
-        this.props.dispatch(fetchMovieDetails());
+        const { movieId } = this.props.params;
+        this.props.dispatch(fetchMovieDetails(movieId));
     }
     
     render() {
@@ -15,8 +16,8 @@ class Movie extends Component {
         if(movie && !movie.isFetching) {
             return <div>
                  <Helmet title="Jungle Book" />
-                <h2>{ movie.details.Title }</h2>
-                <p>{ movie.details.Plot }</p>
+                <h2>{ movie.details.title }</h2>
+                <p>{ movie.details.plot }</p>
             </div>
         } else {
             return <div>
@@ -27,9 +28,9 @@ class Movie extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     return {
-        movie: state.movies["jb"]
+        movie: state.movies[ownProps.params.movieId]
     }
 }
 

@@ -7,8 +7,8 @@ import Movie from "./containers/movie";
 
 export default (
   <Route name="app" component={App} path="/">
-    <IndexRoute component={TodoApp}/>]
-    <Route name="movie" component={Movie} path="movie"></Route>
+    <IndexRoute component={TodoApp}/>
+    <Route name="movie" component={Movie} path="/cinema/:movieId"></Route>
   </Route>
   
 );

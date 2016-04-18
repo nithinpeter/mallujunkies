@@ -51,8 +51,7 @@ app.use((req, res, next) => {
         </head>
         <body>
             <div id="react-view">${componentHTML}</div>
-            <script type="application/javascript" src="bundle.js"></script>
-            <script src="https://sdk.accountkit.com/en_US/sdk.js"></script>
+            <script type="application/javascript" src="/bundle.js"></script>
         </body>
     </html>    
     `
