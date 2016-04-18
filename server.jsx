@@ -44,6 +44,7 @@ app.use((req, res, next) => {
         <html>
         <head>
             <meta charset="utf-8">
+            <meta name="google-site-verification" content="WfX3OyIL4W-l0BQSNqs4CfjjqOq0zIewY14ohAa9c_I" />
             ${head.title.toString()}
             <script type="application/javascript">
                 window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};

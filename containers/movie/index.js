@@ -6,6 +6,12 @@ import { fetchMovieDetails } from "../../shared/actions";
 class Movie extends Component {
     
     componentDidMount() {
+        // const { movieId } = this.props.params;
+        // this.props.dispatch(fetchMovieDetails(movieId));
+    }
+    
+    componentWillMount() {
+        console.log("componentWillMount - called on server?")
         const { movieId } = this.props.params;
         this.props.dispatch(fetchMovieDetails(movieId));
     }
