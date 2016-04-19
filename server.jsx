@@ -3,12 +3,13 @@ import path                      from 'path';
 import React                     from 'react';
 import Helmet                    from "react-helmet";
 import { renderToString }        from 'react-dom/server'
-import { RoutingContext, match } from 'react-router';
+import { RouterContext, match }  from 'react-router';
 import createLocation            from 'history/lib/createLocation';
 import routes                    from './routes';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider }                     from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider }              from 'react-redux';
 import thunkMiddleware           from 'redux-thunk';
+import callApiMiddleware         from './shared/middlewares/call-api-middleware';
 import createLogger              from 'redux-logger';
 import {default as reducer }     from './shared/reducers';
 
@@ -19,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use((req, res, next) => {
     const location = createLocation(req.url);
     // const reducer = combineReducers(reducers);
-    const store = createStore(reducer, {}, applyMiddleware(thunkMiddleware));
+    const store = createStore(reducer, {}, compose(applyMiddleware(thunkMiddleware, callApiMiddleware)));
 
     
     match({ routes, location }, (err, redirectLocation, renderProps) => {
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
 
         const InitialComponent = (
             <Provider store={store}>
-                <RoutingContext {...renderProps} />
+                <RouterContext {...renderProps} />
             </Provider>
         );
         const initialState = store.getState();
