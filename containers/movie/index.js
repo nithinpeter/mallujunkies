@@ -5,15 +5,24 @@ import { fetchMovieDetails } from "../../shared/actions";
 
 class Movie extends Component {
     
+    
+    static fetchData(dispatch, movieId) {
+        console.log("called from server???");
+        dispatch(fetchMovieDetails(movieId));
+    }
+    
     componentDidMount() {
         // const { movieId } = this.props.params;
         // this.props.dispatch(fetchMovieDetails(movieId));
+        console.log("componentDidMount - called")
+        const { movieId } = this.props.params;
+        Movie.fetchData(this.props.dispatch, movieId);
     }
     
     componentWillMount() {
-        console.log("componentWillMount - called on server?")
-        const { movieId } = this.props.params;
-        this.props.dispatch(fetchMovieDetails(movieId));
+        // console.log("componentWillMount - called on server?")
+        // const { movieId } = this.props.params;
+        // this.props.dispatch(fetchMovieDetails(movieId));
     }
     
     render() {
