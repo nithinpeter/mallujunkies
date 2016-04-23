@@ -6,6 +6,11 @@ export const SUCCESS_MOVIE_DETAILS = "SUCCESS_MOVIE_DETAILS";
 export const FAILURE_MOVIE_DETAILS = "FAILURE_MOVIE_DETAILS";
 
 
+export const REQUEST_MOVIE_LIST = "REQUEST_MOVIE_LIST";
+export const SUCCESS_MOVIE_LIST = "SUCCESS_MOVIE_LIST";
+export const FAILURE_MOVIE_LIST = "FAILURE_MOVIE_LIST";
+
+
 
 export function fetchMovieDetails(dispatch, id) {
     dispatch({
@@ -25,6 +30,28 @@ export function fetchMovieDetails(dispatch, id) {
             reject(dispatch({
                 type: FAILURE_MOVIE_DETAILS,
                 movieId: id
+            }));
+        }))
+    
+}
+
+export function fetchMovieList(dispatch) {
+    dispatch({
+        type: REQUEST_MOVIE_LIST
+    });
+
+    return new Promise((resolve, reject) => http.get(`/api/movies`).then((response) => {
+        console.log("API RESPONSE::RECEIVED");
+        resolve(dispatch({
+            type: SUCCESS_MOVIE_LIST,
+            body: response,
+            lastFetched: new Date()
+        }));
+        },
+        (error) => {
+            reject(dispatch({
+                type: FAILURE_MOVIE_LIST,
+                body: error
             }));
         }))
     

@@ -45,14 +45,13 @@ app.use((req, res, next) => {
         const { components, params, query } = renderProps;
 
         fetchComponentsData(store.dispatch, components, params, query).then(() => {
-            console.log("resolved? this quick!")
+            console.log("RESOLVED");
             const InitialComponent = (
                 <Provider store={store}>
                     <RouterContext {...renderProps} />
                 </Provider>
             );
             const initialState = store.getState();
-            console.log("Initial state", initialState);
             const componentHTML = renderToString(InitialComponent);
             const head = Helmet.rewind();
 

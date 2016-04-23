@@ -7,36 +7,28 @@ class Movie extends Component {
     
     
     static fetchData(dispatch, movieId = 1) {
-        console.log("called from server???");
         return fetchMovieDetails(dispatch, movieId);
     }
     
     componentDidMount() {
-        // const { movieId } = this.props.params;
-        // this.props.dispatch(fetchMovieDetails(movieId));
-        console.log("componentDidMount - called")
-        const { movieId } = this.props.params;
-        Movie.fetchData(this.props.dispatch, movieId);
-    }
-    
-    componentWillMount() {
-        // console.log("componentWillMount - called on server?")
-        // const { movieId } = this.props.params;
-        // this.props.dispatch(fetchMovieDetails(movieId));
+        if(!this.props.movie) {
+            const { id } = this.props.params;
+            Movie.fetchData(this.props.dispatch, id);
+        }
     }
     
     render() {
-        const { movie } = this.props;
+        const { details, isFetching } = this.props.movie;
         
-        if(movie && !movie.isFetching) {
+        if(!isFetching) {
             return <div>
-                 <Helmet title="Jungle Book" />
-                <h2>{ movie.details.title }</h2>
-                <p>{ movie.details.plot }</p>
+                 <Helmet title={details.title} />
+                <h2>{ details.title }</h2>
+                <p>{ details.plot }</p>
             </div>
         } else {
             return <div>
-                 <Helmet title="Jungle Book" />
+                 <Helmet title="Movies"/>
                 Loading..
             </div>
         }
@@ -45,7 +37,7 @@ class Movie extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        movie: state.movies[ownProps.params.movieId]
+        movie: state.movies.list[ownProps.params.id]
     }
 }
 

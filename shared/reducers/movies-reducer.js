@@ -1,4 +1,12 @@
-import { REQUEST_MOVIE_DETAILS, SUCCESS_MOVIE_DETAILS, FAILURE_MOVIE_DETAILS } from "../actions";
+import { 
+    REQUEST_MOVIE_DETAILS, 
+    SUCCESS_MOVIE_DETAILS, 
+    FAILURE_MOVIE_DETAILS,
+    
+    REQUEST_MOVIE_LIST, 
+    SUCCESS_MOVIE_LIST, 
+    FAILURE_MOVIE_LIST 
+} from "../actions";
 
 const defaultState = {};
 
@@ -21,26 +29,47 @@ const defaultState = {};
 
 export default function movies(state = defaultState, action) {
     switch (action.type) {
+        
+        case REQUEST_MOVIE_LIST:
+            return {
+                isFetching: true
+            };
+        case SUCCESS_MOVIE_LIST:
+            return {
+                isFetching: false,
+                list: action.body
+            }
+        case FAILURE_MOVIE_LIST:
+            return {
+                isFetching: false,
+                error: action.body
+            };
         case REQUEST_MOVIE_DETAILS:
             return {
-                [action.movieId]: {
-                    isFetching: true
+                list: {
+                    [action.movieId]: {
+                        isFetching: true
+                    }
                 }
             };
         case SUCCESS_MOVIE_DETAILS:
             return {
-                [action.movieId]: {
-                    isFetching: false,
-                    details: action.body
+                list: {
+                    [action.movieId]: {
+                        isFetching: false,
+                        details: action.body
+                    }
                 }
             };
         case FAILURE_MOVIE_DETAILS:
             return {
-                [action.movieId]: {
-                    isFetching: false,
-                    details: action.body
+                list: {
+                    [action.movieId]: {
+                        isFetching: false,
+                        error: action.body
+                    }
                 }
-            }
+            };
         default:
             return state;
     }
