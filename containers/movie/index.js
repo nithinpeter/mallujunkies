@@ -6,9 +6,9 @@ import { fetchMovieDetails } from "../../shared/actions";
 class Movie extends Component {
     
     
-    static fetchData(dispatch, movieId) {
+    static fetchData(dispatch, movieId = 1) {
         console.log("called from server???");
-        dispatch(fetchMovieDetails(movieId));
+        return fetchMovieDetails(dispatch, movieId);
     }
     
     componentDidMount() {

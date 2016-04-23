@@ -21,7 +21,7 @@ const fetchComponentsData = (dispatch, components, params, query) => {
     console.log("Fetch Components Data Called");
     const promises = components.filter(component => component.fetchData)
                                 .map( component => {
-                                    // console.log("Component with static fetch data::", component);
+                                    console.log("Component with static fetch data::", component.fetchData(dispatch));
                                     return component.fetchData(dispatch);
                                 });
     
@@ -52,6 +52,7 @@ app.use((req, res, next) => {
                 </Provider>
             );
             const initialState = store.getState();
+            console.log("Initial state", initialState);
             const componentHTML = renderToString(InitialComponent);
             const head = Helmet.rewind();
 

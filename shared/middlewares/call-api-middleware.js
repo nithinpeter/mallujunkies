@@ -8,7 +8,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
     } = action;
 
     if (!types) {
-      console.log("Normal action: pass it on");
+      console.log("Normal action: pass it on::", action.type);
       return next(action);
     }
 
