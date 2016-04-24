@@ -28,6 +28,14 @@ const fetchComponentsData = (dispatch, components, params, query) => {
     return Promise.all(promises);
 }
 
+app.use(function(req, res, next) {
+    GLOBAL.navigator = {
+        userAgent: req.headers['user-agent']
+    }
+    next();
+});
+
+
 app.use((req, res, next) => {
     const location = createLocation(req.url);
     // const reducer = combineReducers(reducers);
@@ -61,6 +69,7 @@ app.use((req, res, next) => {
                 <head>
                     <meta charset="utf-8">
                     <meta name="google-site-verification" content="WfX3OyIL4W-l0BQSNqs4CfjjqOq0zIewY14ohAa9c_I" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
                     ${head.title.toString()}
                     <script type="application/javascript">
                         window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};

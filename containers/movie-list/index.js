@@ -3,6 +3,9 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { fetchMovieList } from "../../shared/actions";
 import { Link } from 'react-router'
+import List from 'material-ui/lib/lists/list';
+import ListItem from 'material-ui/lib/lists/list-item';
+import Divider from 'material-ui/lib/divider';
 
 class MovieList extends Component {
 
@@ -14,18 +17,14 @@ class MovieList extends Component {
 
     componentDidMount() {
 
-        if (!this.props.movies) {
+        if (this.props.movies.topMovies.length == 0) {
             MovieList.fetchData(this.props.dispatch);
         }
     }
     
-    handleNavigate(id) {
-        window.location.pathname = `/movies/${id}`;
-    }
-    
     render() {
-        const { list, isFetching } = this.props.movies;
-        console.log("List", list, isFetching);
+        const { topMovies, isFetching } = this.props.movies;
+        console.log("List", topMovies, isFetching);
 
         if (isFetching) {
             return <div>
@@ -37,11 +36,20 @@ class MovieList extends Component {
         return <div>
             <Helmet title="Movies" />
             <h2>Movies</h2>
+            <List subheader="Top Movies 2016">
             {
-                list ? list.map((movie) => {
-                    return <Link to={'/movies/' + movie._id} key={movie._id}>{movie.title}</Link>
+                topMovies ? topMovies.map((movie) => {
+                    return (
+                        <div key={movie._id}>
+                            <Link to={'movies/' + movie._id}>
+                                <ListItem primaryText={movie.title} />
+                            </Link>
+                            <Divider />
+                        </div>
+                    )
                 }) : null
             }
+            </List>
         </div>
 
     }

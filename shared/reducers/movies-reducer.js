@@ -8,7 +8,12 @@ import {
     FAILURE_MOVIE_LIST 
 } from "../actions";
 
-const defaultState = {};
+const defaultState = {
+    topMovies: [],
+    list: {
+        isFetching: true
+    }
+};
 
 // function getDetails(state = { isFetching: false, details: {} }, action) {
 //     switch (action.type) {
@@ -27,49 +32,50 @@ const defaultState = {};
 // }
 
 
+
+
 export default function movies(state = defaultState, action) {
     switch (action.type) {
         
         case REQUEST_MOVIE_LIST:
-            return {
-                isFetching: true
-            };
+            return Object.assign({}, state, {
+                        isFetching: true
+                    });
         case SUCCESS_MOVIE_LIST:
-            return {
+            return Object.assign({}, state, {
                 isFetching: false,
-                list: action.body
-            }
+                topMovies: action.body
+            });
         case FAILURE_MOVIE_LIST:
-            return {
+            return Object.assign({}, state, {
                 isFetching: false,
                 error: action.body
-            };
+            });
         case REQUEST_MOVIE_DETAILS:
-            return {
+            return Object.assign({}, state, {
                 list: {
-                    [action.movieId]: {
-                        isFetching: true
-                    }
+                    isFetching: true,
+                    [action.movieId]: {}
                 }
-            };
+            });
         case SUCCESS_MOVIE_DETAILS:
-            return {
+            return Object.assign({}, state, {
                 list: {
+                    isFetching: false,
                     [action.movieId]: {
-                        isFetching: false,
-                        details: action.body
+                        response: action.body
                     }
                 }
-            };
+            });
         case FAILURE_MOVIE_DETAILS:
-            return {
+            return Object.assign({}, state, {
                 list: {
+                    isFetching: false,
                     [action.movieId]: {
-                        isFetching: false,
                         error: action.body
                     }
                 }
-            };
+            });
         default:
             return state;
     }
