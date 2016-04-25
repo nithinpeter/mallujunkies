@@ -31,6 +31,7 @@ class Movie extends Component {
         }
 
         return <Card>
+            <Helmet title={ movie.title }/>
             <CardHeader
                 title={ movie.title }
                 subtitle={ movie.director }
