@@ -61,6 +61,7 @@ app.use((req, res, next) => {
             );
             const initialState = store.getState();
             const componentHTML = renderToString(InitialComponent);
+            console.log('Component HTML', componentHTML);
             const head = Helmet.rewind();
 
             const HTML = `
