@@ -16,23 +16,39 @@ export const FAILURE_PLAN_LIST = "FAILURE_PLAN_LIST";
 export function fetchPlanDetails(dispatch, id) {
     dispatch({
         type: REQUEST_PLAN_DETAILS,
-        movieId: id
+        id: id
     });
-
-    return new Promise((resolve, reject) => http.get(`/api/movies/${id}`).then((response) => {
-        console.log("API RESPONSE::RECEIVED");
-        resolve(dispatch({
-            type: SUCCESS_PLAN_DETAILS,
-            movieId: id,
-            body: response
-        }));
-        },
-        (error) => {
-            reject(dispatch({
-                type: FAILURE_PLAN_DETAILS,
-                movieId: id
-            }));
-        }))
+    
+    console.log(id);
+    
+    return new Promise((resolve, reject) => {
+        
+        firebaseApp.database().ref('plans/' + id).on('value', function(snapshot) {
+            console.log("SNAPSHOT::", snapshot.val());
+            resolve(dispatch({
+                type: SUCCESS_PLAN_DETAILS,
+                body: snapshot.val(),
+                lastFetched: new Date()
+            }))
+        });
+        
+    })
+    
+    
+    // return new Promise((resolve, reject) => http.get(`/api/movies/${id}`).then((response) => {
+    //     console.log("API RESPONSE::RECEIVED");
+    //     resolve(dispatch({
+    //         type: SUCCESS_PLAN_DETAILS,
+    //         movieId: id,
+    //         body: response
+    //     }));
+    //     },
+    //     (error) => {
+    //         reject(dispatch({
+    //             type: FAILURE_PLAN_DETAILS,
+    //             movieId: id
+    //         }));
+    //     }))
     
 }
 

@@ -30,31 +30,22 @@ export default function plans(state = defaultState, action) {
                 isFetching: false,
                 error: action.body
             });
-        // case REQUEST_PLAN_DETAILS:
-        //     return Object.assign({}, state, {
-        //         list: {
-        //             isFetching: true,
-        //             [action.movieId]: {}
-        //         }
-        //     });
-        // case SUCCESS_PLAN_DETAILS:
-        //     return Object.assign({}, state, {
-        //         list: {
-        //             isFetching: false,
-        //             [action.movieId]: {
-        //                 response: action.body
-        //             }
-        //         }
-        //     });
-        // case FAILURE_PLAN_DETAILS:
-        //     return Object.assign({}, state, {
-        //         list: {
-        //             isFetching: false,
-        //             [action.movieId]: {
-        //                 error: action.body
-        //             }
-        //         }
-        //     });
+        case REQUEST_PLAN_DETAILS:
+            return Object.assign({}, state, {
+                list: {
+                    isFetching: true
+                }
+            });
+        case SUCCESS_PLAN_DETAILS:
+            console.log("SUCCESS_PLAN_DETAILS", action.body);
+            return Object.assign({}, state, {
+                list: [...state.list, action.body],
+                isFetching: false
+            });
+        case FAILURE_PLAN_DETAILS:
+            return Object.assign({}, state, {
+                isFetching: false
+            });
         default:
             return state;
     }

@@ -17,7 +17,7 @@ class PlanList extends Component {
 
     componentDidMount() {
 
-        if (this.props.list.length == 0) {
+        if (this.props.plans.list.length == 0) {
             PlanList.fetchData(this.props.dispatch);
         }
     }
@@ -35,18 +35,20 @@ class PlanList extends Component {
         
         return <div>
             <Helmet title="Plans - Where do we go?" />
-            <h2>Movies</h2>
+            <h2>My Plans</h2>
             <List subheader="Where do we go?">
             {
                 list ? list.map((item) => {
-                    return (
-                        <div key={item.id}>
-                            <Link to={'items/' + item.id}>
-                                <ListItem primaryText={item.place} />
-                            </Link>
-                            <Divider />
-                        </div>
-                    )
+                    if(item) {
+                        return (
+                            <div key={item.id}>
+                                <Link to={'plans/' + item.id}>
+                                    <ListItem primaryText={item.place} />
+                                </Link>
+                                <Divider />
+                            </div>
+                        )
+                    }
                 }) : null
             }
             </List>

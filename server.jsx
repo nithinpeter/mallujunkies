@@ -18,11 +18,11 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
 
 const fetchComponentsData = (dispatch, components, params, query) => {
-    console.log("Fetch Components Data Called");
+    console.log("Fetch Components Data Called", params, query);
     const promises = components.filter(component => component.fetchData)
                                 .map( component => {
-                                    console.log("Component with static fetch data::", component.fetchData(dispatch));
-                                    return component.fetchData(dispatch);
+                                    console.log("Component with static fetch data::", component);
+                                    return component.fetchData(dispatch, params);
                                 });
     
     return Promise.all(promises);
