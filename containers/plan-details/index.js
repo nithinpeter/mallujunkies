@@ -5,6 +5,8 @@ import { fetchPlanDetails } from "../../shared/actions";
 import Card from 'material-ui/lib/card/card';
 import CardHeader from 'material-ui/lib/card/card-header';
 import CardText from 'material-ui/lib/card/card-text';
+import CardMedia from 'material-ui/lib/card/card-media';
+import CardTitle from 'material-ui/lib/card/card-title';
 
 
 class PlanDetails extends Component {
@@ -24,9 +26,9 @@ class PlanDetails extends Component {
 
     render() {
         const plan = this.props.plan;
-        
+
         console.log("PLAN::", plan);
-        
+
         if (this.props.isFetching) {
             return <div>
                 <Helmet title="Plan details"/>
@@ -36,10 +38,10 @@ class PlanDetails extends Component {
 
         return <Card>
             <Helmet title={ plan.place }/>
-            <CardHeader
-                title={ plan.place }
-                subtitle={ plan.place }
-                />
+            <CardMedia mediaStyle={{height: "30vh"}}
+                overlay={<CardTitle title={ plan.place } subtitle={ plan.place } />}>
+                <img src={plan.imageUrl} style={{height: "100%"}} />
+            </CardMedia>
             <CardText>
                 {plan.place}
             </CardText>
@@ -49,13 +51,13 @@ class PlanDetails extends Component {
 
 function mapStateToProps(state, ownProps) {
     let plan;
-    
+
     console.dir(state);
-    if(!state) return { plan: {}, isFetching: false };
-    
-    for(let i = 0; i < state.plans.list.length; i++) {
-        if(state.plans.list[i]) {
-            if(state.plans.list[i].id == ownProps.params.id) {
+    if (!state) return { plan: {}, isFetching: false };
+
+    for (let i = 0; i < state.plans.list.length; i++) {
+        if (state.plans.list[i]) {
+            if (state.plans.list[i].id == ownProps.params.id) {
                 plan = state.plans.list[i];
                 break;
             }
