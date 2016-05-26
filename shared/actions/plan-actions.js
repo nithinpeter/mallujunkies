@@ -33,23 +33,6 @@ export function fetchPlanDetails(dispatch, id) {
         });
         
     })
-    
-    
-    // return new Promise((resolve, reject) => http.get(`/api/movies/${id}`).then((response) => {
-    //     console.log("API RESPONSE::RECEIVED");
-    //     resolve(dispatch({
-    //         type: SUCCESS_PLAN_DETAILS,
-    //         movieId: id,
-    //         body: response
-    //     }));
-    //     },
-    //     (error) => {
-    //         reject(dispatch({
-    //             type: FAILURE_PLAN_DETAILS,
-    //             movieId: id
-    //         }));
-    //     }))
-    
 }
 
 export function fetchPlans(dispatch) {
@@ -69,45 +52,16 @@ export function fetchPlans(dispatch) {
         });
         
     })
-    
-    
-    
-    // return new Promise((resolve, reject) => http.get(`/api/movies`).then((response) => {
-    //     console.log("API RESPONSE::RECEIVED");
-    //     resolve(dispatch({
-    //         type: SUCCESS_PLAN_LIST,
-    //         body: response,
-    //         lastFetched: new Date()
-    //     }));
-    //     },
-    //     (error) => {
-    //         reject(dispatch({
-    //             type: FAILURE_PLAN_LIST,
-    //             body: error
-    //         }));
-    //     }))
-    
 }
 
-
-
-
-
-// export function fetchMovieDetails(id) {
-
-//     return {
-//         // Types of actions to emit before and after
-//         types: [REQUEST_PLAN_DETAILS, SUCCESS_PLAN_DETAILS, FAILURE_PLAN_DETAILS],
-
-//         // Check the cache (optional):
-//         // shouldCallAPI: (state) => state.posts.data.length === 0 && !state.posts.isLoading,
-
-//         // Perform the fetching:
-//         callAPI: () => http.get(`/api/movies/${id}`),
-
-//         // Arguments to inject in begin/end actions
-//         payload: {
-//             movieId: id
-//         },
-//     };
-// }
+export function submitResponse(dispatch, payload, planId) {
+    // dispatch({
+    //     type: REQUEST_SUBMIT_RESPOSNE
+    // });
+    
+    return new Promise((resolve, reject) => {
+        
+        firebaseApp.database().ref('plans/' + planId + '/responses').push(payload);
+        
+    })
+}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
-import { fetchPlanDetails } from "../../shared/actions";
+import { fetchPlanDetails, submitResponse } from "../../shared/actions";
 import Card from 'material-ui/lib/card/card';
 import CardHeader from 'material-ui/lib/card/card-header';
 import CardText from 'material-ui/lib/card/card-text';
@@ -22,6 +22,17 @@ class PlanDetails extends Component {
         if (!this.props.plan) {
             PlanDetails.fetchData(this.props.dispatch, this.props.params);
         }
+    }
+    
+    handleSubmit(e) {
+        let payload = {
+            type: 1,
+            timestamp: new Date(),
+            userId: 1,
+            data: this.state.comment
+        }
+        
+        submitResponse(this.props.dispatch, payload, this.props.params.id);
     }
 
     render() {
@@ -45,6 +56,16 @@ class PlanDetails extends Component {
             <CardText>
                 {plan.place}
             </CardText>
+            <div>
+                <input type="text" onChange={(event) => this.setState({comment: event.target.value})}/>
+                <button onClick={this.handleSubmit.bind(this)}>Submit</button>
+            </div>
+            
+            {
+                plan.responses ? Object.keys(plan.responses).map((key) => {
+                    return <div>{plan.responses[key].data}</div>
+                }) : <div>No response.</div>
+            }
         </Card>;
     }
 }
