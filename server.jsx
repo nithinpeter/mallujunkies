@@ -6,13 +6,13 @@ import { renderToString }        from 'react-dom/server'
 import { RouterContext, match }  from 'react-router';
 import createLocation            from 'history/lib/createLocation';
 import routes                    from './routes';
-import { createStore, applyMiddleware, compose } from 'redux';
+// import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider }              from 'react-redux';
-import thunkMiddleware           from 'redux-thunk';
-import callApiMiddleware         from './shared/middlewares/call-api-middleware';
-import createLogger              from 'redux-logger';
-import {default as reducer }     from './shared/reducers';
-
+// import thunkMiddleware           from 'redux-thunk';
+// import callApiMiddleware         from './shared/middlewares/call-api-middleware';
+// import createLogger              from 'redux-logger';
+// import {default as reducer }     from './shared/reducers';
+import store                     from './store';
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'build')));
@@ -39,7 +39,7 @@ app.use(function(req, res, next) {
 app.use((req, res, next) => {
     const location = createLocation(req.url);
     // const reducer = combineReducers(reducers);
-    const store = createStore(reducer, {}, compose(applyMiddleware(thunkMiddleware, callApiMiddleware)));
+    // const store = createStore(reducer, {}, compose(applyMiddleware(thunkMiddleware, callApiMiddleware)));
 
 
     match({ routes, location }, (err, redirectLocation, renderProps) => {

@@ -69,7 +69,7 @@ class PlanDetails extends Component {
                 {plan.place}
             </CardText>
             <div>
-                <input type="text" value={this.state.comment} onChange={(event) => this.setState({comment: event.target.value})}/>
+                <textarea value={this.state.comment} style={Style.commentBox} onChange={(event) => this.setState({comment: event.target.value})}></textarea>
                 <button onClick={this.handleSubmit.bind(this)}>Submit</button>
             </div>
             
@@ -101,6 +101,12 @@ function mapStateToProps(state, ownProps) {
         plan,
         isFetching: state.plans.isFetching
     };
+}
+
+const Style = {
+    commentBox: {
+        width: '100%'
+    }
 }
 
 export default connect(mapStateToProps)(PlanDetails)
