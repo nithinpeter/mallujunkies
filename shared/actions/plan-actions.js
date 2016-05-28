@@ -11,6 +11,8 @@ export const REQUEST_PLAN_LIST = "REQUEST_PLAN_LIST";
 export const SUCCESS_PLAN_LIST = "SUCCESS_PLAN_LIST";
 export const FAILURE_PLAN_LIST = "FAILURE_PLAN_LIST";
 
+export const SUCCESS_PLAN_UPDATE = "SUCCESS_PLAN_UPDATE";
+
 
 
 export function fetchPlanDetails(dispatch, id) {
@@ -18,12 +20,12 @@ export function fetchPlanDetails(dispatch, id) {
         type: REQUEST_PLAN_DETAILS,
         id: id
     });
-    
+
     console.log(id);
-    
+
     return new Promise((resolve, reject) => {
-        
-        firebaseApp.database().ref('plans/' + id).on('value', function(snapshot) {
+
+        firebaseApp.database().ref('plans/' + id).on('value', function (snapshot) {
             console.log("SNAPSHOT::", snapshot.val());
             resolve(dispatch({
                 type: SUCCESS_PLAN_DETAILS,
@@ -31,7 +33,7 @@ export function fetchPlanDetails(dispatch, id) {
                 lastFetched: new Date()
             }))
         });
-        
+
     })
 }
 
@@ -39,10 +41,10 @@ export function fetchPlans(dispatch) {
     dispatch({
         type: REQUEST_PLAN_LIST
     });
-    
+
     return new Promise((resolve, reject) => {
-        
-        firebaseApp.database().ref('plans').on('value', function(snapshot) {
+
+        firebaseApp.database().ref('plans').on('value', function (snapshot) {
             console.log("SNAPSHOT::", snapshot.val());
             resolve(dispatch({
                 type: SUCCESS_PLAN_LIST,
@@ -50,18 +52,24 @@ export function fetchPlans(dispatch) {
                 lastFetched: new Date()
             }))
         });
-        
     })
 }
 
 export function submitResponse(dispatch, payload, planId) {
-    // dispatch({
-    //     type: REQUEST_SUBMIT_RESPOSNE
-    // });
-    
     return new Promise((resolve, reject) => {
-        
         firebaseApp.database().ref('plans/' + planId + '/responses').push(payload);
-        
     })
+}
+
+export function registerListeners(dispatch, planId) {
+    firebaseApp.database().ref('plans').on('child_changed', function (snapshot) {
+        console.log("SNAPSHOT::", snapshot.val());
+        dispatch({
+            type: SUCCESS_PLAN_UPDATE,
+            body: snapshot.val(),
+            lastFetched: new Date(),
+            id: planId
+        })
+    });
+
 }

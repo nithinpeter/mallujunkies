@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
-import { fetchPlanDetails, submitResponse } from "../../shared/actions";
+import { fetchPlanDetails, submitResponse, registerListeners } from "../../shared/actions";
 import Card from 'material-ui/lib/card/card';
 import CardHeader from 'material-ui/lib/card/card-header';
 import CardText from 'material-ui/lib/card/card-text';
@@ -17,14 +17,25 @@ class PlanDetails extends Component {
         const { id } = params;
         return fetchPlanDetails(dispatch, id);
     }
-
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            comment: ''
+        }
+    }
+    
     componentDidMount() {
         if (!this.props.plan) {
             PlanDetails.fetchData(this.props.dispatch, this.props.params);
         }
+        registerListeners(this.props.dispatch, this.props.params.id)
     }
     
     handleSubmit(e) {
+        
+        if(!this.state.comment) return;
+        
         let payload = {
             type: 1,
             timestamp: new Date(),
@@ -32,6 +43,7 @@ class PlanDetails extends Component {
             data: this.state.comment
         }
         
+        this.setState({comment: ""});
         submitResponse(this.props.dispatch, payload, this.props.params.id);
     }
 
@@ -57,7 +69,7 @@ class PlanDetails extends Component {
                 {plan.place}
             </CardText>
             <div>
-                <input type="text" onChange={(event) => this.setState({comment: event.target.value})}/>
+                <input type="text" value={this.state.comment} onChange={(event) => this.setState({comment: event.target.value})}/>
                 <button onClick={this.handleSubmit.bind(this)}>Submit</button>
             </div>
             
