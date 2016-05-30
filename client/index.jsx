@@ -9,7 +9,7 @@ import { Provider }                     from 'react-redux';
 // import callApiMiddleware                from '../shared/middlewares/call-api-middleware';
 // import createLogger                     from 'redux-logger';
 import { default as reducer }           from '../shared/reducers';
-import { fromJS }                       from 'immutable';
+// import { fromJS }                       from 'immutable';
 import store                            from '../store';
 
 // const history = createBrowserHistory();
