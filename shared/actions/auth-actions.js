@@ -1,12 +1,11 @@
 import fetch from "isomorphic-fetch";
 import http from '../../utils/http-client';
 import { firebaseApp } from '../../utils/firebase-config';
+import NavigationManager from '../../utils/navigation-manager';
 
 export const REQUEST_LOGIN = "REQUEST_LOGIN";
 export const SUCCESS_LOGIN = "SUCCESS_LOGIN";
 export const FAILURE_LOGIN = "FAILURE_LOGIN";
-
-
 
 export function login(dispatch, email, password) {
     dispatch({
@@ -19,7 +18,8 @@ export function login(dispatch, email, password) {
         dispatch({
             type: SUCCESS_LOGIN,
             user: user
-        })
+        });
+        NavigationManager.navigateTo("/plans");
     })
     .catch(function (error) {
         console.log(FAILURE_LOGIN, error);

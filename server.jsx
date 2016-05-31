@@ -76,7 +76,7 @@ app.use((req, res, next) => {
                         window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
                     </script>
                 </head>
-                <body>
+                <body style="font-family: Roboto, sans-serif;">
                     <div id="react-view">${componentHTML}</div>
                     <script type="application/javascript" src="/bundle.js"></script>
                 </body>

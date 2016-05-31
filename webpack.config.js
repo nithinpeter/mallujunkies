@@ -1,6 +1,6 @@
-
 var path = require('path');
 var webpack = require('webpack');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const Config = {
 
@@ -37,6 +37,11 @@ const Config = {
     //     new webpack.HotModuleReplacementPlugin(),
     //     new webpack.NoErrorsPlugin()
     // ],
+    plugins: [
+        new CopyWebpackPlugin([
+            {from: __dirname + '/images', to: __dirname + '/build/images'}
+        ])
+    ],
     devtool: 'inline-source-map'
     // ,
     // devServer: {
