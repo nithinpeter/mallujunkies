@@ -70,13 +70,13 @@ app.use((req, res, next) => {
                 <head>
                     <meta charset="utf-8">
                     <meta name="google-site-verification" content="WfX3OyIL4W-l0BQSNqs4CfjjqOq0zIewY14ohAa9c_I" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
                     ${head.title.toString()}
                     <script type="application/javascript">
                         window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
                     </script>
                 </head>
-                <body style="font-family: Roboto, sans-serif;">
+                <body style="font-family: Roboto, sans-serif; margin: 0;">
                     <div id="react-view">${componentHTML}</div>
                     <script type="application/javascript" src="/bundle.js"></script>
                 </body>
