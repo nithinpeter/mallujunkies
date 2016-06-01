@@ -8,6 +8,17 @@ export const SUCCESS_LOGIN = "SUCCESS_LOGIN";
 export const FAILURE_LOGIN = "FAILURE_LOGIN";
 
 export function login(dispatch, email, password) {
+    
+    if(!email || !password) {
+        dispatch({
+            type: FAILURE_LOGIN,
+            error: {
+                message: "Please enter a valid email and password combination."
+            }
+        });
+        return;
+    }
+    
     dispatch({
         type: REQUEST_LOGIN
     });

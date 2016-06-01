@@ -42,6 +42,9 @@ class Login extends Component {
                 <div style={style.margin}>
                     <PrimaryButton label="Login" onClick={this.login.bind(this)} disabled={this.props.isLoading}/>
                 </div>
+                <div style={style.error}>
+                    {this.props.errorMessage}
+                </div>
             </form>
         </div>;
     }
@@ -68,12 +71,16 @@ const style = {
         height: '100px',
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat'
+    },
+    error: {
+        color: 'red'
     }
 }
 
 function mapStateToProps(state, ownProps) {
     return {
-        isLoading: state.auth.isLoading
+        isLoading: state.auth.isLoading,
+        errorMessage: state.auth.error.message
     }
 }
 

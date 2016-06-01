@@ -16,6 +16,9 @@ if(common.isBrowser())
 else
     initialState = {};
 
-const store = createStore(reducer, initialState, applyMiddleware(thunkMiddleware, callApiMiddleware));
+const store = createStore(reducer, initialState, compose(
+    applyMiddleware(thunkMiddleware, callApiMiddleware)
+    // , typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
+));
 
 export default store;

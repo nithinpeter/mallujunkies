@@ -11,7 +11,9 @@ export class App extends Component {
             <div style={style.header}>
                 <div style={style.logoContainer}></div>
             </div>
-            {this.props.children}
+            <div style={style.appContainer}>
+                {this.props.children}
+            </div>
         </div>
     }
 }
@@ -20,6 +22,11 @@ const style = {
     header: {
         height: 50,
         boxShadow: '0px 2px 4px 1px #D0D0D0'
+    },
+    appContainer: {
+        minHeight: '100vh',
+        maxWidth: 800,
+        margin: '0 auto'
     },
     logoContainer: {
         background: 'url("/images/logo-small.png")',

@@ -7,6 +7,9 @@ import CardHeader from 'material-ui/lib/card/card-header';
 import CardText from 'material-ui/lib/card/card-text';
 import CardMedia from 'material-ui/lib/card/card-media';
 import CardTitle from 'material-ui/lib/card/card-title';
+import Avatar from 'material-ui/lib/avatar';
+import STYLE from '../../utils/style';
+import PrimaryButton from '../../components/primary-button';
 
 
 class PlanDetails extends Component {
@@ -17,33 +20,35 @@ class PlanDetails extends Component {
         const { id } = params;
         return fetchPlanDetails(dispatch, id);
     }
-    
+
     constructor(props) {
         super(props);
         this.state = {
             comment: ''
         }
     }
-    
+
     componentDidMount() {
         if (!this.props.plan) {
             PlanDetails.fetchData(this.props.dispatch, this.props.params);
         }
         registerListeners(this.props.dispatch, this.props.params.id)
     }
-    
+
     handleSubmit(e) {
+
+        if (!this.state.comment) return;
         
-        if(!this.state.comment) return;
+        if(!this.props.user || !this.props.user.uid) return; 
         
         let payload = {
             type: 1,
             timestamp: new Date(),
-            userId: 1,
+            userId: this.props.user.uid,
             data: this.state.comment
         }
-        
-        this.setState({comment: ""});
+
+        this.setState({ comment: "" });
         submitResponse(this.props.dispatch, payload, this.props.params.id);
     }
 
@@ -61,23 +66,39 @@ class PlanDetails extends Component {
 
         return <Card>
             <Helmet title={ plan.place }/>
-            <CardMedia mediaStyle={{height: "30vh"}}
+            <CardMedia mediaStyle={{ height: "30vh" }}
                 overlay={<CardTitle title={ plan.place } subtitle={ plan.place } />}>
-                <img src={plan.imageUrl} style={{height: "100%"}} />
+                <img src={plan.imageUrl} style={{ height: "100%" }} />
             </CardMedia>
-            <CardText>
-                {plan.place}
+            
+            <CardText style={Style.inviteesContainer}>
+            {
+                plan.participants ? Object.keys(plan.participants).map((key) => {
+                    return <div style={{display: "inline-block", marginRight: 15}}>
+                        <Avatar src={plan.participants[key].imageUrl} style={{verticalAlign: "middle", marginRight: 5}}/>
+                        <span>{plan.participants[key].name}</span>
+                    </div>
+                }) : <div>No one is invited?! That's weird!</div>
+            }
             </CardText>
-            <div>
-                <textarea value={this.state.comment} style={Style.commentBox} onChange={(event) => this.setState({comment: event.target.value})}></textarea>
-                <button onClick={this.handleSubmit.bind(this)}>Submit</button>
+            <div style={Style.commentBoxContainer}>
+                <textarea value={this.state.comment} style={Style.commentBox} onChange={(event) => this.setState({ comment: event.target.value }) }></textarea>
+                <PrimaryButton onClick={this.handleSubmit.bind(this)} label="Comment"/>
             </div>
             
-            {
-                plan.responses ? Object.keys(plan.responses).map((key) => {
-                    return <div>{plan.responses[key].data}</div>
-                }) : <div>No response.</div>
-            }
+            <div style={Style.containerMargin}>
+                {
+                    plan.responses ? Object.keys(plan.responses).map((key) => {
+                        let participantKey = plan.responses[key].userId;
+                        return <div key={key}>
+                        <div style={Style.imageContainer}>
+                            <Avatar src={plan.participants[participantKey].imageUrl} style={{marginRight: 5}}/>
+                        </div>
+                        <div style={Style.commentResponse}>{plan.responses[key].data}</div>
+                    </div>
+                    }) : <div>No response.</div>
+                }
+            </div>
         </Card>;
     }
 }
@@ -99,13 +120,40 @@ function mapStateToProps(state, ownProps) {
 
     return {
         plan,
-        isFetching: state.plans.isFetching
+        isFetching: state.plans.isFetching,
+        user: state.auth.user
     };
 }
 
 const Style = {
     commentBox: {
-        width: '100%'
+        width: "100%",
+        resize: "none"
+    },
+    commentBoxContainer: {
+        margin: "1em",
+    },
+    inviteesContainer: {
+        background: STYLE.colors.secondary1,
+        color: STYLE.colors.white
+    },
+    commentResponse: {
+        width: "75%",
+        display: "inline-block",
+        padding: 10,
+        minHeight: 20,
+        border: "1px solid #C7C7C7",
+        borderRadius: 5 
+    },
+    imageContainer: {
+        width: "9%", 
+        maxWidth: 50,
+        minWidth: 50,
+        verticalAlign: "top", 
+        display: "inline-block"
+    },
+    containerMargin: {
+        margin: "0 1em"
     }
 }
 
