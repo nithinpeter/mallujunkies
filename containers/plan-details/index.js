@@ -10,6 +10,7 @@ import CardTitle from 'material-ui/lib/card/card-title';
 import Avatar from 'material-ui/lib/avatar';
 import STYLE from '../../utils/style';
 import PrimaryButton from '../../components/primary-button';
+import moment from "moment";
 
 
 class PlanDetails extends Component {
@@ -43,7 +44,7 @@ class PlanDetails extends Component {
         
         let payload = {
             type: 1,
-            timestamp: new Date(),
+            time: (new Date()).toString(),
             userId: this.props.user.uid,
             data: this.state.comment
         }
@@ -51,7 +52,11 @@ class PlanDetails extends Component {
         this.setState({ comment: "" });
         submitResponse(this.props.dispatch, payload, this.props.params.id);
     }
-
+    
+    getFormattedDate(date) {
+        return moment(date).format("MMM D");
+    }
+ 
     render() {
         const plan = this.props.plan;
 
@@ -64,7 +69,7 @@ class PlanDetails extends Component {
             </div>
         }
 
-        return <Card>
+        return <Card style={{minHeight: "100vh"}}>
             <Helmet title={ plan.place }/>
             <CardMedia mediaStyle={{ height: "30vh" }}
                 overlay={<CardTitle title={ plan.place } subtitle={ plan.place } />}>
@@ -82,7 +87,7 @@ class PlanDetails extends Component {
             }
             </CardText>
             <div style={Style.commentBoxContainer}>
-                <textarea value={this.state.comment} style={Style.commentBox} onChange={(event) => this.setState({ comment: event.target.value }) }></textarea>
+                <textarea rows="5" value={this.state.comment} style={Style.commentBox} onChange={(event) => this.setState({ comment: event.target.value }) }></textarea>
                 <PrimaryButton onClick={this.handleSubmit.bind(this)} label="Comment"/>
             </div>
             
@@ -90,11 +95,17 @@ class PlanDetails extends Component {
                 {
                     plan.responses ? Object.keys(plan.responses).map((key) => {
                         let participantKey = plan.responses[key].userId;
-                        return <div key={key}>
+                        return <div key={key} style={{marginBottom: 15}}>
                         <div style={Style.imageContainer}>
                             <Avatar src={plan.participants[participantKey].imageUrl} style={{marginRight: 5}}/>
                         </div>
-                        <div style={Style.commentResponse}>{plan.responses[key].data}</div>
+                        <div style={Style.commentResponseContainer}>
+                            <div style={Style.commentResponseTitle}>
+                                <strong>{plan.participants[participantKey].name}</strong>
+                                <span>{" commented on " + this.getFormattedDate(plan.responses[key].time)}</span>
+                            </div>
+                            <div style={Style.commentResponse}>{plan.responses[key].data}</div>
+                        </div>
                     </div>
                     }) : <div>No response.</div>
                 }
@@ -127,8 +138,11 @@ function mapStateToProps(state, ownProps) {
 
 const Style = {
     commentBox: {
-        width: "100%",
-        resize: "none"
+        width: "97%",
+        resize: "none",
+        padding: 10,
+        border: "1px solid #C7C7C7",
+        borderRadius: 5,
     },
     commentBoxContainer: {
         margin: "1em",
@@ -137,13 +151,21 @@ const Style = {
         background: STYLE.colors.secondary1,
         color: STYLE.colors.white
     },
-    commentResponse: {
+    commentResponseContainer: {
         width: "75%",
         display: "inline-block",
-        padding: 10,
-        minHeight: 20,
         border: "1px solid #C7C7C7",
-        borderRadius: 5 
+        minHeight: 40,
+        borderRadius: 5, 
+    },
+    commentResponse: {
+        padding: 10,
+        whiteSpace: "pre"
+    },
+    commentResponseTitle: {
+        background: "#C7C7C7",
+        padding: 10,
+        fontSize: "0.8em"
     },
     imageContainer: {
         width: "9%", 
