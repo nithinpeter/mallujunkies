@@ -6,6 +6,7 @@ import { Link } from 'react-router'
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
+import Loading from '../../components/fullscreen-loading';
 
 class PlanList extends Component {
 
@@ -29,7 +30,7 @@ class PlanList extends Component {
         if (isFetching) {
             return <div>
                 <Helmet title="Plans" />
-                Loading..
+                <Loading />
             </div>
         }
         

@@ -10,6 +10,7 @@ import CardTitle from 'material-ui/lib/card/card-title';
 import Avatar from 'material-ui/lib/avatar';
 import STYLE from '../../utils/style';
 import PrimaryButton from '../../components/primary-button';
+import Loading from '../../components/fullscreen-loading';
 import moment from "moment";
 
 
@@ -65,7 +66,7 @@ class PlanDetails extends Component {
         if (this.props.isFetching) {
             return <div>
                 <Helmet title="Plan details"/>
-                Loading..
+                <Loading />
             </div>
         }
 
